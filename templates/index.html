@@ -1,22 +1,19 @@
-<!— index.html —>
-  <html>
+{%extends"layout/base.html"%} {% block title %} predict {% endblock title
+%} {% block meta %} testing {% endblock meta %}
 
-  <head>
-    <meta charset="utf-8">
-    <!-- Latest compiled and minified bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
-    <title>Personality Analyzer</title>
-  </head>
+<!-- -->
+{% block content %}
 
-  <body>
-    <h1>start testing</h1>
-    <form name="predict" action="{{url_for('predict')}}" method="POST">
-      <label for="fname">text:</label>
-      <input type="text" name="predict" class="form-control" placeholder="Text  " value="" />
-      <button class="flex-c-m btn size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4" type="submit" style="color: #ffffff">
-        Predict
-      </button>
-    </form>
-  </body>
+<!-- ----------------------------------------------->
+<h1>start testing</h1>
+<form name="predict" action="{{url_for('predict')}}" method="POST">
+  <label for="fname">text:</label>
+  <input type="text" name="predict" class="form-control" placeholder="Text  " value="" />
+  <button class="flex-c-m btn size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4" type="submit" style="color: #ffffff">
+    Predict
+  </button>
+</form>
 
-  </html>
+<!-- ----------------------------------------------->
+
+{%endblock content %}
