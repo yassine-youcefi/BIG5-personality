@@ -10,6 +10,13 @@
 
   <body>
     <h1>start testing</h1>
+    <form name="predict" action="{{url_for('predict')}}" method="POST">
+      <label for="fname">text:</label>
+      <input type="text" name="predict" class="form-control" placeholder="Text  " value="" />
+      <button class="flex-c-m btn size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4" type="submit" style="color: #ffffff">
+        Predict
+      </button>
+    </form>
   </body>
 
   </html>
