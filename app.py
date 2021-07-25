@@ -43,39 +43,5 @@ def my_network():
     # return render_template('index.txt', predictions=prediction)
 
 
-@app.route('/my_personality', methods=['GET'])
-def my_personality():
-    my_personality = predictor.my_personality_json()
-    return json.dumps(my_personality, default=json_util.default)
-    # return jsonify(my_network_predictions)
-    #
-    # return render_template('index.txt', predictions=prediction)
-
-
-@app.route('/submit_personality_test', methods=['POST'])
-def submit_personality_test():
-    print('Submit_personamity_test -----------------')
-    answers = request.json
-    print('answers >> ', answers)
-    result = predictor.submit_personality_test(answers)
-    print('results >> ', result)
-
-    return jsonify(result)
-    # return jsonify(my_network_predictions)
-    #
-    # return render_template('index.txt', predictions=prediction)
-
-
-@app.route('/compare', methods=['POST'])
-def compare():
-    person = request.json
-    result = predictor.compare_json(person)
-
-    return json.dumps(result, default=json_util.default)
-    # return jsonify(my_network_predictions)
-    #
-    # return render_template('index.txt', predictions=prediction)
-
-
 if __name__ == '__main__':
     app.run(host='0.0.0.0', threaded=True, debug=True)
