@@ -1,5 +1,4 @@
 from __future__ import division
-from math import sqrt
 from flask import Flask, render_template, request, jsonify
 from flask import Flask, request
 from predict import Predictor

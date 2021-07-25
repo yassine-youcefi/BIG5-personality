@@ -1,7 +1,6 @@
 import pandas as pd
-import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.preprocessing import MinMaxScaler
+
 
 class DataPrep():
     def __init__(self):
@@ -21,7 +20,7 @@ class DataPrep():
             'Extraversion': 'cEXT',
             'Agreeableness': 'cAGR',
             'Neuroticism': 'cNEU'
-            }
+        }
         self.trait_score_dict = {
             'O': 'sOPN',
             'C': 'sCON',
@@ -38,7 +37,7 @@ class DataPrep():
             'Extraversion': 'sEXT',
             'Agreeableness': 'sAGR',
             'Neuroticism': 'sNEU'
-            }
+        }
         self.LIWC_features = [
             'WPS', 'Unique', 'Dic', 'Sixltr', 'Negate', 'Assent', 'Article', 'Preps', 'Number',
             'Pronoun', 'I', 'We', 'Self', 'You', 'Other',
@@ -110,21 +109,21 @@ class DataPrep():
 
         return X, y
 
-
     def prep_status_data(self):
-        df = pd.read_csv('data/myPersonality/mypersonality_final.csv', encoding="ISO-8859-1")
+        df = pd.read_csv(
+            'data/myPersonality/mypersonality_final.csv', encoding="ISO-8859-1")
         df = self.convert_traits_to_boolean(df)
         return df
 
-
     def prep_essay_data(self):
-        df_essays = pd.read_csv('data/personality-detection-my-copy/essays.csv', encoding="ISO-8859-1")
-        df_mairesse = pd.read_csv('data/personality-detection-my-copy/mairesse.csv', encoding="ISO-8859-1", header=None)
-
+        df_essays = pd.read_csv(
+            'data/personality-detection-my-copy/essays.csv', encoding="ISO-8859-1")
+        df_mairesse = pd.read_csv(
+            'data/personality-detection-my-copy/mairesse.csv', encoding="ISO-8859-1", header=None)
 
         df_mairesse.columns = ['#AUTHID'] + self.LIWC_features
 
-        df = df_essays.merge(df_mairesse, how = 'inner', on = ['#AUTHID'])
+        df = df_essays.merge(df_mairesse, how='inner', on=['#AUTHID'])
 
         # add word count (WC) column
         df['WC'] = df['TEXT'].str.split().str.len()
@@ -141,7 +140,6 @@ class DataPrep():
             df[trait] = df[trait].map(d)
 
         return df
-
 
     def load_data(self, filepath):
         return pd.read_csv(filepath, encoding="ISO-8859-1")
