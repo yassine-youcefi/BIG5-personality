@@ -1,14 +1,9 @@
 from __future__ import division
 from math import sqrt
 from flask import Flask, render_template, request, jsonify
-from collections import Counter
 from flask import Flask, request
 from predict import Predictor
 from model import Model
-import pickle
-import pandas as pd
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.naive_bayes import MultinomialNB
 import json
 from bson import json_util
 
