@@ -1,10 +1,9 @@
 from __future__ import division
 from flask import Flask, render_template, request, jsonify
-from flask import Flask, request
 from predict import Predictor
 from model import Model
 import json
-from bson import json_util
+import bson
 
 app = Flask(__name__)
 
@@ -20,8 +19,9 @@ def index():
 @app.route('/predict', methods=['POST'])
 def predict():
     print('Predict ----------------')
-    text = request.json
-    print('Text >> ', text)
+    text_json =  request.json
+    text = text_json['predict']
+    print('Text >> ',text )
     prediction = predictor.predict([text])
     print('Prediction >> ', prediction)
 
@@ -33,13 +33,6 @@ def predict():
     # return render_template('index.txt', predictions=prediction)
 
 
-@app.route('/my_network', methods=['GET'])
-def my_network():
-    my_network_predictions = predictor.my_network_json()
-    return json.dumps(my_network_predictions, default=json_util.default)
-    # return jsonify(my_network_predictions)
-    #
-    # return render_template('index.txt', predictions=prediction)
 
 
 if __name__ == '__main__':

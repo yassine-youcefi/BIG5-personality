@@ -10,8 +10,7 @@ class Predictor():
         self.traits = ['OPN', 'CON', 'EXT', 'AGR', 'NEU']
         self.models = {}
         self.load_models()
-        self.df = self.load_df()
-        self.df = self.agg_avg_personality()
+        
 
     def load_models(self):
         M = Model()
@@ -132,11 +131,4 @@ class Predictor():
 if __name__ == '__main__':
     P = Predictor()
     print('init p')
-    P.add_profile_pic()
-    print('add profile pic')
-    P.predict_fb_statuses()
-    print('predict fb statuses')
     P.agg_avg_personality()
-    P.insert_avgs_into_db()
-    P.add_percentiles()
-    P.create_radar_plots()
