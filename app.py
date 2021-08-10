@@ -8,7 +8,6 @@ import bson
 app = Flask(__name__)
 
 M = Model()
-predictor = Predictor()
 
 
 @app.route('/', methods=['GET'])
@@ -18,19 +17,30 @@ def index():
 
 @app.route('/predict', methods=['POST'])
 def predict():
+    predictor = Predictor()
     print('Predict ----------------')
+    text =  request.form.get('predict')
+    if text:
+        print('Text >> ',text )
+
+        # text_json =  request.json
+        # text = text_json['predict']
+        prediction = predictor.predict([text])
+        # print('Prediction >> ', prediction)
+
+        return jsonify(prediction)
+    
+    # return 'ok'
+
+@app.route('/predict-json', methods=['POST'])
+def predict_json():
+    predictor = Predictor()
     text_json =  request.json
     text = text_json['predict']
     print('Text >> ',text )
     prediction = predictor.predict([text])
-    print('Prediction >> ', prediction)
 
-    # prediction = pd.DataFrame(prediction).to_html()
-    # return prediction
-    # return jsonify({'prediction': str(prediction)})
     return jsonify(prediction)
-    #
-    # return render_template('index.txt', predictions=prediction)
 
 
 
