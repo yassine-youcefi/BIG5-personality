@@ -111,26 +111,10 @@ class DataPrep():
 
     def prep_status_data(self):
         df = pd.read_csv(
-            'data/myPersonality/mypersonality_final.csv', encoding="ISO-8859-1")
+            'data/myPersonality/personality.csv', encoding="ISO-8859-1")
         df = self.convert_traits_to_boolean(df)
         return df
 
-    def prep_essay_data(self):
-        df_essays = pd.read_csv(
-            'data/personality-detection-my-copy/essays.csv', encoding="ISO-8859-1")
-        df_mairesse = pd.read_csv(
-            'data/personality-detection-my-copy/mairesse.csv', encoding="ISO-8859-1", header=None)
-
-        df_mairesse.columns = ['#AUTHID'] + self.LIWC_features
-
-        df = df_essays.merge(df_mairesse, how='inner', on=['#AUTHID'])
-
-        # add word count (WC) column
-        df['WC'] = df['TEXT'].str.split().str.len()
-
-        df = self.convert_traits_to_boolean(df)
-
-        return df
 
     def convert_traits_to_boolean(self, df):
         trait_columns = ['cOPN', 'cCON', 'cEXT', 'cAGR', 'cNEU']
