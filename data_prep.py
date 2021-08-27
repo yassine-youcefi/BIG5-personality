@@ -57,20 +57,11 @@ class DataPrep():
 
     def prep_data(self, type, trait, regression=False, model_comparison=False):
         df_status = self.prep_status_data()
-        # df_essay = self.prep_essay_data()
 
         tfidf = TfidfVectorizer(stop_words='english', strip_accents='ascii')
 
         if type == 'essay':
 
-            # result = tfidf.fit_transform(df_essay['TEXT']).todense()
-            #
-            # scaler = MinMaxScaler()
-            # other_features_df = scaler.fit(df_essay[self.LIWC_features])
-            #
-            # X = np.nan_to_num(np.column_stack((result, )))
-
-            # If need data to compare models
             if model_comparison:
                 X = tfidf.fit_transform(df_essay['TEXT'])
             # Data for fitting production model
@@ -91,7 +82,6 @@ class DataPrep():
                 'NBROKERAGE',
                 'TRANSITIVITY'
             ]
-            # result = tfidf.fit_transform(df_status['STATUS']).todense()
 
             # If need data to compare models
             if model_comparison:
