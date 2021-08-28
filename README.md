@@ -13,6 +13,9 @@ this will create  pickle files for each personaltiy in the `static/` folder
 
 ### run the web app and make prediction:
 - ``` python3 app.py ```
+
+--- 
  
+ ![](static/Kazam_screencast_00000.gif)
 
 
