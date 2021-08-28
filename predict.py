@@ -38,29 +38,7 @@ class Predictor():
 
         return predictions
 
-    def agg_avg_personality(self):
-      
-
-        df_mean_scores = self.df.groupby(['NAME'], as_index=False).agg(
-            {'pred_sOPN': ['mean'], 'pred_sCON': ['mean'], 'pred_sEXT': ['mean'], 'pred_sAGR': ['mean'], 'pred_sNEU': ['mean']})
-
-        df_mean_scores.columns = ['NAME', 'avg_pred_sOPN', 'avg_pred_sCON',
-                                  'avg_pred_sEXT', 'avg_pred_sAGR', 'avg_pred_sNEU']
-
-        df = self.df.merge(df_mean_scores, how='right', on='NAME')
-
-       
-
-        df_mean_probs = df.groupby(['NAME'], as_index=False).agg(
-            {'pred_prob_cOPN': ['mean'], 'pred_prob_cCON': ['mean'], 'pred_prob_cEXT': ['mean'], 'pred_prob_cAGR': ['mean'], 'pred_prob_cNEU': ['mean']})
-        df_mean_probs.columns = ['NAME', 'avg_pred_prob_cOPN', 'avg_pred_prob_cCON',
-                                 'avg_pred_prob_cEXT', 'avg_pred_prob_cAGR', 'avg_pred_prob_cNEU']
-
-        df = df.merge(df_mean_probs, how='right', on='NAME')
-
-        return df
-
 if __name__ == '__main__':
     P = Predictor()
-    print('init p')
-    P.agg_avg_personality()
+    print('init p ------- ',P)
+    

@@ -26,7 +26,6 @@ def predict():
         # text_json =  request.json
         # text = text_json['predict']
         prediction = predictor.predict([text])
-        # print('Prediction >> ', prediction)
 
         return jsonify(prediction)
     
