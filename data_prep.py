@@ -86,11 +86,11 @@ class DataPrep():
             # If need data to compare models
             if model_comparison:
                 X = tfidf.fit_transform(df_status['STATUS'])
-                # X = np.nan_to_num(np.column_stack((result, df_status[other_features_columns])))
+                print('X ')
             # Data to fit production model
             else:
                 X = df_status['STATUS']
-
+            
             if regression:
                 y_column = self.trait_score_dict[trait]
             else:
