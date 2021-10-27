@@ -4,6 +4,10 @@ from data_prep import DataPrep
 from sklearn.feature_extraction.text import TfidfVectorizer
 import matplotlib.pyplot as plt 
 from sklearn.model_selection import train_test_split 
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import classification_report
+
 class Model():
     def __init__(self):
         self.rfr = RandomForestRegressor(bootstrap=True,
@@ -25,12 +29,20 @@ class Model():
     def predict(self, X, regression=True):
         X = self.tfidf.transform(X)
         if regression:
-            print("regression accuracy ", self.rfr.score(X, y))
             return self.rfr.predict(X)
 
         else:
-            print("classification accuracy ", self.rfc.score(X, y))
             return self.rfc.predict(X)
+
+    def score(self, X, y, regression=True):
+        X = self.tfidf.transform(X)
+        if regression:
+            return self.rfr.score(X, y)
+        else:
+            return self.rfc.score(X, y)
+
+            
+
 
     def predict_proba(self, X, regression=False):
         X = self.tfidf.transform(X)
@@ -42,6 +54,8 @@ class Model():
 if __name__ == '__main__':
     traits = ['OPN', 'CON', 'EXT', 'AGR', 'NEU']
     model = Model()
+    regression_accuracy = []
+    classification_accuracy = []
 
     for trait in traits:
         dp = DataPrep()
@@ -53,22 +67,35 @@ if __name__ == '__main__':
         X_categorical_train, X_categorical_test, y_categorical_train, y_categorical_test = train_test_split(X_categorical, y_categorical, test_size = 0.2, random_state = 0)
 
 
-        # Fitting Random Forest Regression to the Training set
-        print('Fitting trait ' + trait + ' regression model...')
-        regression_model = model.fit(X_regression_train, y_regression_train, regression=True).predict(X_regression_test, regression=True)
-        print('regression accuracy', model.score(X_regression_test, y_regression_test, regression=True))
-        print('Done!')
+        print('Fitting trait ' + trait + ' regression model..........................................................')
+        model.fit(X_regression, y_regression, regression=True)
+        y_pred = model.predict(X_regression_test, regression=True)
+        y_test = y_regression_test
+        # get model accuracy score on test data set 
+        score = model.score(X_regression, y_regression)
+        regression_accuracy.append({'trait': trait, 'score': score})
 
-        # Fitting Random Forest Classification to the Training set
-        print('Fitting trait ' + trait + ' categorical model...')
-        categorical_model = model.fit(X_categorical_train, y_categorical_train, regression=False).predict(X_categorical_test, regression=False)
-        print('categorical accuracy', model.score(X_categorical_test, y_categorical_test, regression=False))
 
-        print('Done!')
 
+
+
+        print('Fitting trait ' + trait + ' categorical model..........................................................')
+        model.fit(X_categorical, y_categorical, regression=False)
+        y_pred = model.predict(X_categorical_test, regression=False)
+        y_test = y_categorical_test
+        # get model accuracy score on test data set 
+        score = accuracy_score(y_test, y_pred)
+        classification_accuracy.append({'trait': trait, 'score': score})
         # with open('static/' + trait + '_model.pkl', 'wb') as f:
         #     # Write the model to a file.
         #     pickle.dump(model, f)
+    print('Regression accuracy: ' + str(regression_accuracy))
+    print('Classification accuracy: ' + str(classification_accuracy))
 
+
+    # write the accuracy result into json file 
+    with open('static/accuracy.', 'w') as f:
+        f.write(str(regression_accuracy))
+        f.write(str(classification_accuracy))
       
 
