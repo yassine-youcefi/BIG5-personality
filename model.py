@@ -67,12 +67,22 @@ if __name__ == '__main__':
         X_categorical_train, X_categorical_test, y_categorical_train, y_categorical_test = train_test_split(X_categorical, y_categorical, test_size = 0.2, random_state = 0)
 
 
+        # print(' test regression data >> ',len(X_regression_test),len(y_regression_test))
+        # print('Y test regression data >> ',len(y_regression_train),len(X_regression_train))
+        # print('X train categorical data >> ',len(X_categorical_train))
+        # print('Y train categorical data >> ',len(y_categorical_train))
+
         print('Fitting trait ' + trait + ' regression model..........................................................')
-        model.fit(X_regression, y_regression, regression=True)
+       
+        # # fit regression model 'train the model'
+        model.fit(X_regression_train, y_regression_train, regression=True)
+
+        # # predict the classification model with test dataset 
         y_pred = model.predict(X_regression_test, regression=True)
+
         y_test = y_regression_test
-        # get model accuracy score on test data set 
-        score = model.score(X_regression, y_regression)
+        # # get model accuracy score on test data set 
+        score = model.score(X_regression_test, y_pred)
         regression_accuracy.append({'trait': trait, 'score': score})
 
 
@@ -80,12 +90,18 @@ if __name__ == '__main__':
 
 
         print('Fitting trait ' + trait + ' categorical model..........................................................')
+        
+        # # fit classification model 'train the model'
         model.fit(X_categorical, y_categorical, regression=False)
+        
+        # # predict the classification model with test dataset 
         y_pred = model.predict(X_categorical_test, regression=False)
+        
         y_test = y_categorical_test
-        # get model accuracy score on test data set 
+        # # get model accuracy score on test data set 
         score = accuracy_score(y_test, y_pred)
         classification_accuracy.append({'trait': trait, 'score': score})
+
         # with open('static/' + trait + '_model.pkl', 'wb') as f:
         #     # Write the model to a file.
         #     pickle.dump(model, f)
@@ -94,7 +110,7 @@ if __name__ == '__main__':
 
 
     # write the accuracy result into json file 
-    with open('static/accuracy.', 'w') as f:
+    with open('static/accuracy.txt', 'w') as f:
         f.write(str(regression_accuracy))
         f.write(str(classification_accuracy))
       
